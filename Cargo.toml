@@ -1,16 +1,16 @@
 [package]
-name = "tree-sitter-javascript"
-description = "JavaScript grammar for tree-sitter"
-version = "0.23.1"
+name = "tree-sitter-jh"
+description = "JavaScript-HTML grammar for tree-sitter"
+version = "0.0.1"
 authors = [
   "Max Brunsfeld <maxbrunsfeld@gmail.com>",
   "Amaan Qureshi <amaanq12@gmail.com>",
 ]
 license = "MIT"
 readme = "README.md"
-keywords = ["incremental", "parsing", "tree-sitter", "javascript"]
+keywords = ["incremental", "parsing", "tree-sitter", "javascript", "html"]
 categories = ["parsing", "text-editors"]
-repository = "https://github.com/tree-sitter/tree-sitter-javascript"
+repository = "https://github.com/jvanmourik/tree-sitter-jh"
 edition = "2021"
 autoexamples = false
 

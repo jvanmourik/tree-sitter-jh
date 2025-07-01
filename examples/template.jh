@@ -1,0 +1,17 @@
+const color = "red";
+let factorial = 1;
+
+<html>
+  <head>
+    <title>JavaScript-HTML Template</title>
+  </head>
+  <body>
+    <h1>Hello JavaScript-HTML</h1>
+    <ol>
+      for (const i = 0; i < 3; i++) {
+        factorial *= i;
+        <li>{i}! = {factorial}</li>
+      }
+    </ol>
+  </body>
+</html>

@@ -9,13 +9,9 @@ assignees: ''
 
 The following piece of code is valid but it is parsed incorrectly:
 
-```javascript
+```jh
 
 ```
-
-Here's a link to the TypeScript Playground showing that the snippet above is valid JavaScript or TypeScript:
-<!-- Please check your code at https://www.typescriptlang.org/play
-     and paste the URL below. -->
 
 <!-- Please run `tree-sitter parse YOUR_FILE` and show us the output. -->
 The output of `tree-sitter parse` is the following:

@@ -1,12 +1,12 @@
 import XCTest
 import SwiftTreeSitter
-import TreeSitterJavaScript
+import TreeSitterJH
 
-final class TreeSitterJavaScriptTests: XCTestCase {
+final class TreeSitterJHTests: XCTestCase {
     func testCanLoadGrammar() throws {
         let parser = Parser()
-        let language = Language(language: tree_sitter_javascript())
+        let language = Language(language: tree_sitter_jh())
         XCTAssertNoThrow(try parser.setLanguage(language),
-                         "Error loading JavaScript grammar")
+                         "Error loading JavaScript-HTML grammar")
     }
 }

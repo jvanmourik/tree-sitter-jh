@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.13)
 
-project(tree-sitter-javascript
-        VERSION "0.23.1"
-        DESCRIPTION "JavaScript grammar for tree-sitter"
-        HOMEPAGE_URL "https://github.com/tree-sitter/tree-sitter-javascript"
+project(tree-sitter-jh
+        VERSION "0.0.1"
+        DESCRIPTION "JavaScript-HTML grammar for tree-sitter"
+        HOMEPAGE_URL "https://github.com/jvanmourik/tree-sitter-jh"
         LANGUAGES C)
 
 option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
@@ -24,33 +24,33 @@ add_custom_command(OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/src/parser.c"
                    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
                    COMMENT "Generating parser.c")
 
-add_library(tree-sitter-javascript src/parser.c)
+add_library(tree-sitter-jh src/parser.c)
 if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/scanner.c)
-  target_sources(tree-sitter-javascript PRIVATE src/scanner.c)
+  target_sources(tree-sitter-jh PRIVATE src/scanner.c)
 endif()
-target_include_directories(tree-sitter-javascript PRIVATE src)
+target_include_directories(tree-sitter-jh PRIVATE src)
 
-target_compile_definitions(tree-sitter-javascript PRIVATE
+target_compile_definitions(tree-sitter-jh PRIVATE
                            $<$<BOOL:${TREE_SITTER_REUSE_ALLOCATOR}>:TREE_SITTER_REUSE_ALLOCATOR>
                            $<$<CONFIG:Debug>:TREE_SITTER_DEBUG>)
 
-set_target_properties(tree-sitter-javascript
+set_target_properties(tree-sitter-jh
                       PROPERTIES
                       C_STANDARD 11
                       POSITION_INDEPENDENT_CODE ON
                       SOVERSION "${TREE_SITTER_ABI_VERSION}.${PROJECT_VERSION_MAJOR}"
                       DEFINE_SYMBOL "")
 
-configure_file(bindings/c/tree-sitter-javascript.pc.in
-               "${CMAKE_CURRENT_BINARY_DIR}/tree-sitter-javascript.pc" @ONLY)
+configure_file(bindings/c/tree-sitter-jh.pc.in
+               "${CMAKE_CURRENT_BINARY_DIR}/tree-sitter-jh.pc" @ONLY)
 
 include(GNUInstallDirs)
 
-install(FILES bindings/c/tree-sitter-javascript.h
+install(FILES bindings/c/tree-sitter-jh.h
         DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/tree_sitter")
-install(FILES "${CMAKE_CURRENT_BINARY_DIR}/tree-sitter-javascript.pc"
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/tree-sitter-jh.pc"
         DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig")
-install(TARGETS tree-sitter-javascript
+install(TARGETS tree-sitter-jh
         LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}")
 
 add_custom_target(ts-test "${TREE_SITTER_CLI}" test

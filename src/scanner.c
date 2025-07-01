@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <wctype.h>
+#include <string.h>
 
 enum TokenType {
     AUTOMATIC_SEMICOLON,
@@ -14,13 +15,13 @@ enum TokenType {
     JSX_TEXT,
 };
 
-void *tree_sitter_javascript_external_scanner_create() { return NULL; }
+void *tree_sitter_jh_external_scanner_create() { return NULL; }
 
-void tree_sitter_javascript_external_scanner_destroy(void *p) {}
+void tree_sitter_jh_external_scanner_destroy(void *p) {}
 
-unsigned tree_sitter_javascript_external_scanner_serialize(void *payload, char *buffer) { return 0; }
+unsigned tree_sitter_jh_external_scanner_serialize(void *payload, char *buffer) { return 0; }
 
-void tree_sitter_javascript_external_scanner_deserialize(void *p, const char *b, unsigned n) {}
+void tree_sitter_jh_external_scanner_deserialize(void *p, const char *b, unsigned n) {}
 
 static inline void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
 
@@ -289,6 +290,21 @@ static bool scan_html_comment(TSLexer *lexer) {
     return true;
 }
 
+static bool try_match_control_structure(TSLexer *lexer, const char *keyword) {
+    for (unsigned i = 0; i < strlen(keyword); i++) {
+        if (lexer->lookahead != keyword[i]) {
+            return false;
+        }
+        advance(lexer);
+    }
+    
+    while (iswspace(lexer->lookahead)) {
+        advance(lexer);
+    }
+
+    return lexer->lookahead == '(';
+}
+
 static bool scan_jsx_text(TSLexer *lexer) {
     // saw_text will be true if we see any non-whitespace content, or any whitespace content that is not a newline and
     // does not immediately follow a newline.
@@ -297,8 +313,28 @@ static bool scan_jsx_text(TSLexer *lexer) {
     // immediately follows a newline.
     bool at_newline = false;
 
-    while (lexer->lookahead != 0 && lexer->lookahead != '<' && lexer->lookahead != '>' && lexer->lookahead != '{' &&
-           lexer->lookahead != '}' && lexer->lookahead != '&') {
+    while (!lexer->eof(lexer) && !strchr("<>{}&", lexer->lookahead)) {
+        const char *keyword = NULL;
+        switch (lexer->lookahead) {
+            case 'i': keyword = "if"; break;
+            case 's': keyword = "switch"; break;
+            case 'f': keyword = "for"; break;
+            case 'w': keyword = "while"; break;
+            default: break;
+        }
+
+        if (keyword) {
+            if (try_match_control_structure(lexer, keyword)) {
+                break; // Found a control structure, stop scanning text
+            } else {
+                // Didn't match fully, continue scanning.
+                // Since we’ve already advanced, we treat it as content
+                saw_text = true;
+                lexer->mark_end(lexer);
+                continue;
+            }
+        }
+
         bool is_wspace = iswspace(lexer->lookahead);
         if (lexer->lookahead == '\n') {
             at_newline = true;
@@ -324,13 +360,14 @@ static bool scan_jsx_text(TSLexer *lexer) {
         }
 
         advance(lexer);
+        lexer->mark_end(lexer);
     }
 
     lexer->result_symbol = JSX_TEXT;
     return saw_text;
 }
 
-bool tree_sitter_javascript_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
+bool tree_sitter_jh_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
     if (valid_symbols[TEMPLATE_CHARS]) {
         if (valid_symbols[AUTOMATIC_SEMICOLON]) {
             return false;

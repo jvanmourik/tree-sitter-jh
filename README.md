@@ -1,6 +1,6 @@
 # tree-sitter-jh
 
-JavaScript and HTML grammar for [tree-sitter](https://github.com/tree-sitter/tree-sitter). Based on [tree-sitter-javascript](https://github.com/tree-sitter/tree-sitter-javascript).
+JavaScript-HTML grammar for [tree-sitter](https://github.com/tree-sitter/tree-sitter). Based on [tree-sitter-javascript](https://github.com/tree-sitter/tree-sitter-javascript).
 
 References
 

@@ -81,8 +81,8 @@ dependencies = [
 ]
 
 [[package]]
-name = "tree-sitter-javascript"
-version = "0.23.1"
+name = "tree-sitter-jh"
+version = "0.0.1"
 dependencies = [
  "cc",
  "tree-sitter",

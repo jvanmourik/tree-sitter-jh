@@ -9,7 +9,7 @@
 // @ts-check
 
 module.exports = grammar({
-  name: 'javascript',
+  name: 'jh',
 
   externals: $ => [
     $._automatic_semicolon,
@@ -613,6 +613,10 @@ module.exports = grammar({
       $.html_character_reference,
       $._jsx_element,
       $.jsx_expression,
+      $.if_statement,
+      $.switch_statement,
+      $.for_statement,
+      $.while_statement,
     ),
 
     jsx_opening_element: $ => prec.dynamic(-1, seq(
@@ -676,6 +680,7 @@ module.exports = grammar({
         repeat(choice(
           alias($.unescaped_double_jsx_string_fragment, $.string_fragment),
           $.html_character_reference,
+          $.jsx_expression,
         )),
         '"',
       ),
@@ -684,6 +689,7 @@ module.exports = grammar({
         repeat(choice(
           alias($.unescaped_single_jsx_string_fragment, $.string_fragment),
           $.html_character_reference,
+          $.jsx_expression,
         )),
         '\'',
       ),
@@ -693,10 +699,10 @@ module.exports = grammar({
     // We give names to the token() constructs containing a regexp
     // so as to obtain a node in the CST.
     //
-    unescaped_double_jsx_string_fragment: _ => token.immediate(prec(1, /([^"&]|&[^#A-Za-z])+/)),
+    unescaped_double_jsx_string_fragment: _ => token.immediate(prec(1, /([^"&{]|&[^#A-Za-z])+/)),
 
     // same here
-    unescaped_single_jsx_string_fragment: _ => token.immediate(prec(1, /([^'&]|&[^#A-Za-z])+/)),
+    unescaped_single_jsx_string_fragment: _ => token.immediate(prec(1, /([^'&{]|&[^#A-Za-z])+/)),
 
     _jsx_attribute_value: $ => choice(
       alias($._jsx_string, $.string),

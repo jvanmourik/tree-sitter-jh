@@ -1,5 +1,5 @@
-#ifndef TREE_SITTER_JAVASCRIPT_H_
-#define TREE_SITTER_JAVASCRIPT_H_
+#ifndef TREE_SITTER_JH_H_
+#define TREE_SITTER_JH_H_
 
 typedef struct TSLanguage TSLanguage;
 
@@ -7,10 +7,10 @@ typedef struct TSLanguage TSLanguage;
 extern "C" {
 #endif
 
-const TSLanguage *tree_sitter_javascript(void);
+const TSLanguage *tree_sitter_jh(void);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif // TREE_SITTER_JAVASCRIPT_H_
+#endif // TREE_SITTER_JH_H_

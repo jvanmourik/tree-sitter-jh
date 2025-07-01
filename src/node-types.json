@@ -1838,7 +1838,15 @@
       "required": false,
       "types": [
         {
+          "type": "for_statement",
+          "named": true
+        },
+        {
           "type": "html_character_reference",
+          "named": true
+        },
+        {
+          "type": "if_statement",
           "named": true
         },
         {
@@ -1855,6 +1863,14 @@
         },
         {
           "type": "jsx_text",
+          "named": true
+        },
+        {
+          "type": "switch_statement",
+          "named": true
+        },
+        {
+          "type": "while_statement",
           "named": true
         }
       ]
@@ -2574,6 +2590,10 @@
         },
         {
           "type": "html_character_reference",
+          "named": true
+        },
+        {
+          "type": "jsx_expression",
           "named": true
         },
         {

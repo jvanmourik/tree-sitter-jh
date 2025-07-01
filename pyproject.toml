@@ -3,10 +3,10 @@ requires = ["setuptools>=42", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "tree-sitter-javascript"
-description = "JavaScript grammar for tree-sitter"
-version = "0.23.1"
-keywords = ["incremental", "parsing", "tree-sitter", "javascript"]
+name = "tree-sitter-jh"
+description = "JavaScript-HTML grammar for tree-sitter"
+version = "0.0.1"
+keywords = ["incremental", "parsing", "tree-sitter", "javascript", "html"]
 classifiers = [
   "Intended Audience :: Developers",
   "License :: OSI Approved :: MIT License",
@@ -17,13 +17,14 @@ classifiers = [
 authors = [
   { name = "Max Brunsfeld", email = "maxbrunsfeld@gmail.com" },
   { name = "Amaan Qureshi", email = "amaanq12@gmail.com" },
+  { name = "Jacco van Mourik" },
 ]
 requires-python = ">=3.9"
 license.text = "MIT"
 readme = "README.md"
 
 [project.urls]
-Homepage = "https://github.com/tree-sitter/tree-sitter-javascript"
+Homepage = "https://github.com/jvanmourik/tree-sitter-jh"
 
 [project.optional-dependencies]
 core = ["tree-sitter~=0.22"]
