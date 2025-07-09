@@ -249,6 +249,7 @@ module.exports = grammar({
       $.import_statement,
       $.debugger_statement,
       $.expression_statement,
+      $._jsx_element,
       $.declaration,
       $.statement_block,
 
