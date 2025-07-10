@@ -86,6 +86,7 @@ module.exports = grammar({
     [$.import_statement, $.import],
     [$.export_statement, $.primary_expression],
     [$.lexical_declaration, $.primary_expression],
+    [$.jsx_statement, $.expression],
   ],
 
   conflicts: $ => [
@@ -248,8 +249,8 @@ module.exports = grammar({
       $.export_statement,
       $.import_statement,
       $.debugger_statement,
+      $.jsx_statement,
       $.expression_statement,
-      $._jsx_element,
       $.declaration,
       $.statement_block,
 
@@ -268,6 +269,11 @@ module.exports = grammar({
       $.throw_statement,
       $.empty_statement,
       $.labeled_statement,
+    ),
+    
+    jsx_statement: $ => seq(
+      $._jsx_element,
+      optional($._automatic_semicolon),
     ),
 
     expression_statement: $ => seq(

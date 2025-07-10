@@ -590,6 +590,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "jsx_statement"
+        },
+        {
+          "type": "SYMBOL",
           "name": "expression_statement"
         },
         {
@@ -655,6 +659,27 @@
         {
           "type": "SYMBOL",
           "name": "labeled_statement"
+        }
+      ]
+    },
+    "jsx_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_jsx_element"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_automatic_semicolon"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
@@ -6892,6 +6917,16 @@
       {
         "type": "SYMBOL",
         "name": "primary_expression"
+      }
+    ],
+    [
+      {
+        "type": "SYMBOL",
+        "name": "jsx_statement"
+      },
+      {
+        "type": "SYMBOL",
+        "name": "expression"
       }
     ]
   ],
