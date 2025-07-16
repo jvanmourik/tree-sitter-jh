@@ -13,6 +13,7 @@ enum TokenType {
     ESCAPE_SEQUENCE,
     REGEX_PATTERN,
     JSX_TEXT,
+    RAW_TEXT,
 };
 
 void *tree_sitter_jh_external_scanner_create() { return NULL; }
@@ -297,7 +298,7 @@ static bool try_match_control_structure(TSLexer *lexer, const char *keyword) {
         }
         advance(lexer);
     }
-    
+
     while (iswspace(lexer->lookahead)) {
         advance(lexer);
     }
@@ -367,6 +368,30 @@ static bool scan_jsx_text(TSLexer *lexer) {
     return saw_text;
 }
 
+static bool scan_raw_text(TSLexer *lexer) {
+    lexer->mark_end(lexer);
+
+    const char *end_delimiter = "</STYLE";
+
+    unsigned delimiter_index = 0;
+    while (lexer->lookahead) {
+        if (towupper(lexer->lookahead) == end_delimiter[delimiter_index]) {
+            delimiter_index++;
+            if (delimiter_index == strlen(end_delimiter)) {
+                break;
+            }
+            advance(lexer);
+        } else {
+            delimiter_index = 0;
+            advance(lexer);
+            lexer->mark_end(lexer);
+        }
+    }
+
+    lexer->result_symbol = RAW_TEXT;
+    return true;
+}
+
 bool tree_sitter_jh_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
     if (valid_symbols[TEMPLATE_CHARS]) {
         if (valid_symbols[AUTOMATIC_SEMICOLON]) {
@@ -377,6 +402,10 @@ bool tree_sitter_jh_external_scanner_scan(void *payload, TSLexer *lexer, const b
 
     if (valid_symbols[JSX_TEXT] && scan_jsx_text(lexer)) {
         return true;
+    }
+
+    if (valid_symbols[RAW_TEXT]) {
+        return scan_raw_text(lexer);
     }
 
     if (valid_symbols[AUTOMATIC_SEMICOLON]) {

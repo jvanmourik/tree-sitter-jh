@@ -22,6 +22,7 @@ module.exports = grammar({
     $.escape_sequence,
     $.regex_pattern,
     $.jsx_text,
+    $.raw_text,
   ],
 
   extras: $ => [
@@ -110,7 +111,7 @@ module.exports = grammar({
 
   word: $ => $.identifier,
 
-  rules: {
+  rules: {    
     program: $ => seq(
       optional($.hash_bang_line),
       repeat($.statement),
@@ -270,7 +271,7 @@ module.exports = grammar({
       $.empty_statement,
       $.labeled_statement,
     ),
-    
+
     jsx_statement: $ => seq(
       $._jsx_element,
       optional($._automatic_semicolon),
@@ -592,11 +593,21 @@ module.exports = grammar({
       ']',
     ),
 
-    _jsx_element: $ => choice($.jsx_element, $.jsx_self_closing_element),
+    _jsx_element: $ => choice(
+      $.jsx_element,
+      $.jsx_self_closing_element,
+      $.style_element,
+    ),
 
     jsx_element: $ => seq(
       field('open_tag', $.jsx_opening_element),
       repeat($._jsx_child),
+      field('close_tag', $.jsx_closing_element),
+    ),
+    
+    style_element: $ => seq(
+      field('open_tag', alias($.style_opening_element, $.jsx_opening_element)),
+      optional($.raw_text),
       field('close_tag', $.jsx_closing_element),
     ),
 
@@ -634,6 +645,12 @@ module.exports = grammar({
       )),
       '>',
     )),
+    
+    style_opening_element: $ => seq(
+      '<',
+      field('name', $._style_element_name),
+      '>',
+    ),
 
     jsx_identifier: _ => /[a-zA-Z_$][a-zA-Z\d_$]*-[a-zA-Z\d_$\-]*/,
 
@@ -655,6 +672,8 @@ module.exports = grammar({
       alias($.nested_identifier, $.member_expression),
       $.jsx_namespace_name,
     ),
+    
+    _style_element_name: $ => alias('style', $.identifier),
 
     jsx_closing_element: $ => seq(
       '</',
