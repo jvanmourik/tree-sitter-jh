@@ -29,3 +29,9 @@
              (#eq? @_name "hbs"))
   arguments: ((template_string) @glimmer
               (#offset! @glimmer 0 1 0 -1)))
+
+; Parse CSS within in JSX style elements
+
+(style_element
+  (raw_text) @injection.content
+  (#set! injection.language "css"))
