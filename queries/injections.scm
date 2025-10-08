@@ -36,7 +36,10 @@
   (raw_text) @injection.content
   (#set! injection.language "css"))
 
-(attribute
-    (attribute_name) @_attribute_name (#match? @_attribute_name "^style$")
-    (quoted_attribute_value (attribute_value) @injection.content)
-    (#set! injection.language "css"))
+; Parse CSS inside JSX style attributes
+
+(jsx_attribute
+  (property_identifier) @_attribute_name
+  (#match? @_attribute_name "^style$")
+  (string (string_fragment) @injection.content)
+  (#set! injection.language "css"))
